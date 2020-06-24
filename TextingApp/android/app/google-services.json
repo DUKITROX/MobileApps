@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "926308905727",
+    "firebase_url": "https://textingapp-246bf.firebaseio.com",
+    "project_id": "textingapp-246bf",
+    "storage_bucket": "textingapp-246bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926308905727:android:5465ccbdac2322790112ca",
+        "android_client_info": {
+          "package_name": "com.dunkito.TextingApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926308905727-lqq6vj4ed46a7m5n8um6v4snmbuael94.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_vTZ0ogX8oMTOxQC4csr7rltq5Bt0xFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926308905727-lqq6vj4ed46a7m5n8um6v4snmbuael94.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
