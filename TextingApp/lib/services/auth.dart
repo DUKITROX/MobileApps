@@ -1,3 +1,4 @@
+import 'package:TextingApp/helper/helperFunctions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user.dart';
 
@@ -39,9 +40,10 @@ class AuthMethods{
 
   Future signOut() async {
     try{
+      HelperFunctions.saveUserLoggedInSharedPreference(false);
       return await _auth.signOut();
     }catch(e){
-      print(e.tpString());
+      print(e.toString());
     }
   }
 }

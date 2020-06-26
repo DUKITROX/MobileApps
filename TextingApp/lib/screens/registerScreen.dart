@@ -1,10 +1,16 @@
+import 'package:TextingApp/helper/helperFunctions.dart';
+import 'package:TextingApp/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import '../../widgets/widget.dart';
-import '../../services/auth.dart';
-import'../../screens/chatRoomsScreen/chatRoomsScreen.dart';
+import '../widgets/widget.dart';
+import '../services/auth.dart';
+import'../screens/chatRoomsScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
+  
+  final Function toggle;
+  RegisterScreen(this.toggle);
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -14,6 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
 
   AuthMethods authMethods = AuthMethods();
+  DatabaseMethods databaseMethods = DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEditingController = TextEditingController();
@@ -21,16 +28,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordTextEditingController = TextEditingController();
 
     register(){
-    if(formKey.currentState.validate()){
-      setState((){
-        isLoading = true;
-      });
+      if(formKey.currentState.validate()){
 
-      authMethods.registerWithEmailAndPassword(emailTextEditingController.text, passwordTextEditingController.text).then((val){
-        print(val.userId);});
+        Map<String,String> userMap = {
+          "name":userNameTextEditingController.text,
+          "email":emailTextEditingController.text
+        };
+        HelperFunctions.saveUserNameSharedPreference(userNameTextEditingController.text);
+        HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>ChatRoomsScreen()));
-    }
+        setState((){
+          isLoading = true;
+        });
+        authMethods.registerWithEmailAndPassword(emailTextEditingController.text, passwordTextEditingController.text).then((val){
+          print(val.userId);});
+        databaseMethods.uploadUserInfo(userMap);
+        
+        HelperFunctions.saveUserLoggedInSharedPreference(true);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>ChatRoomsScreen()));
+      }
   }
 
   @override
@@ -69,6 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style:simpleTextStyle(),
                       controller: passwordTextEditingController,
                       validator: (val)=>val.length>6?null:"Please provide a password with more than 6 characters",
+                      obscureText: true,
                     ),
                   ],
                 )
@@ -114,7 +131,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   Text("Already have an account? ", style: simpleTextStyle()),
-                  Text("Log In now",style: TextStyle(color:Colors.white, decoration: TextDecoration.underline, fontSize:16))
+                  GestureDetector(
+                    onTap: (){
+                      widget.toggle();
+                    },
+                    child: Container(
+                      child: Text("Log In now",style: TextStyle(color:Colors.white, decoration: TextDecoration.underline, fontSize:16)),
+                      padding: EdgeInsets.symmetric(vertical:8),),
+                  ),
                 ]
               ),
               SizedBox(height:50)
