@@ -25,7 +25,7 @@ class HelperFunctions{
 
   static Future<bool> getUserLoggedInsInSharedPreference()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.getBool(sharedPreferenceUserLoggedInKey);
+    return  prefs.getBool(sharedPreferenceUserLoggedInKey);
   }
   static Future<String> getUserNameSharedPreference()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();

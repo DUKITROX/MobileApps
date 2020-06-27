@@ -1,5 +1,6 @@
 import 'package:TextingApp/helper/helperFunctions.dart';
 import 'package:TextingApp/screens/chatRoomsScreen.dart';
+import 'package:TextingApp/screens/registerScreen.dart';
 import 'package:flutter/material.dart';
 import 'helper/authenticate.dart';
 
@@ -10,7 +11,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  bool userIsLoggedIn = false;
+  bool userIsLoggedIn;
 
   @override
   void initState() {
@@ -30,9 +31,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
       theme: _themes(),
-      home: userIsLoggedIn? ChatRoomsScreen() : Authenticate()
+      home: userIsLoggedIn!=null? userIsLoggedIn?ChatRoomsScreen():Authenticate() : Container(child:Center(child:Authenticate()))
     );
   }
 }
