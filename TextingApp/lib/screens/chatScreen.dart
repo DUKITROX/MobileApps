@@ -1,6 +1,7 @@
 import 'package:TextingApp/helper/constants.dart';
 import 'package:TextingApp/services/database.dart';
 import 'package:TextingApp/widgets/widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -14,10 +15,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
 
-  DatabaseMethods databaseMethods = DatabaseMethods();
   TextEditingController messageController = TextEditingController();
 
-  Stream chatMessagesStream;
+  Stream<QuerySnapshot> chatMessagesStream;
 
   Widget chatMessageList(){
     return StreamBuilder(
@@ -39,14 +39,14 @@ class _ChatScreenState extends State<ChatScreen> {
       "sentBy": Constants.myName,
       "time": DateTime.now().millisecondsSinceEpoch
       };  
-      databaseMethods.addConversationMessage(widget.chatRoomId, messageMap);
+      DatabaseMethods().addConversationMessage(widget.chatRoomId, messageMap);
       messageController.text = "";
     }
   }
 
   @override
   void initState() {
-    databaseMethods.getConversationMessage(widget.chatRoomId).then((value){
+    DatabaseMethods().getConversationMessage(widget.chatRoomId).then((value){
       setState(() {
         chatMessagesStream = value;
       });
