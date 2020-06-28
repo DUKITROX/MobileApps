@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "801090123016",
+    "firebase_url": "https://clockcup-2e1e2.firebaseio.com",
+    "project_id": "clockcup-2e1e2",
+    "storage_bucket": "clockcup-2e1e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801090123016:android:b86cf550d4071e3a4c28bd",
+        "android_client_info": {
+          "package_name": "com.dunkito.ClockCup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801090123016-fn3r004bblfn52oa8k2danmjf1kidf6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxWMrLlziSMI7oxKyNugqlE8nahM2rbm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801090123016-fn3r004bblfn52oa8k2danmjf1kidf6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
