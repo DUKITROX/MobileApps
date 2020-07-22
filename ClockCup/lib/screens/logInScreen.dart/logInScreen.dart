@@ -6,6 +6,7 @@ import 'package:ClockCup/services/sharedPreferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -32,9 +33,10 @@ class _LogInScreenState extends State<LogInScreen> {
           SharedPreferencesMethods.setEmail(emailController.text);
           databaseMethods.getUserDataFromEmail(emailController.text).then((snapshot){
             QuerySnapshot querySnapshot = snapshot;
-            SharedPreferencesMethods.setUsername(querySnapshot.documents[0].data["email"]);
+            SharedPreferencesMethods.setUsername(querySnapshot.documents[0].data["username"]);
           });
           SharedPreferencesMethods.setIsLoggedIn(true);
+          Toast.show("Succesfully logged in", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ChatRoomsScreen()));
         }else{
           setState(() {
