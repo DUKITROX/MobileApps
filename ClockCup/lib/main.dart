@@ -1,3 +1,4 @@
+import 'package:ClockCup/screens/chatScreen/chatScreen.dart';
 import 'package:ClockCup/screens/registerScreen/registerScreen.dart';
 import 'package:ClockCup/services/sharedPreferences.dart';
 import 'package:ClockCup/wrapper.dart';

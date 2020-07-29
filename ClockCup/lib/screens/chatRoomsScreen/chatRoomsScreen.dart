@@ -1,8 +1,10 @@
+import 'package:ClockCup/screens/chatScreen/chatScreen.dart';
 import 'package:ClockCup/screens/logInScreen.dart/logInScreen.dart';
 import 'package:ClockCup/screens/searchScreen/searchScreen.dart';
 import 'package:ClockCup/services/authentication.dart';
 import 'package:ClockCup/services/databaseMethods.dart';
 import 'package:ClockCup/services/sharedPreferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -16,10 +18,16 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
   AuthenticationMethods authenticationMethods = AuthenticationMethods();
   DatabaseMethods databaseMethods = DatabaseMethods();
 
+  String username;
+
   _signOut(){
     authenticationMethods.signOut();
     SharedPreferencesMethods.setIsLoggedIn(false);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+  }
+  @override
+  void initState() {
+    SharedPreferencesMethods.getUsername().then((value) => username = value);
   }
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
           )
         ],
       ),
-      body: Center(child:Icon(Icons.attach_money,size: 100.0,color: Colors.green[800],)),
+      body:Container(child: _chatroomsList(),),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: ()=>showDialog(
@@ -51,6 +59,43 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
           barrierDismissible: true,
         ),
       ),
+    );
+  }
+  _chatroomsList(){
+    Stream<QuerySnapshot> chatrooms = databaseMethods.getChatrooms(username); 
+    return StreamBuilder(
+      stream: chatrooms,
+      builder: (context, snapshot){
+        return snapshot.hasData? ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index){
+            return Container(
+              alignment: Alignment.topCenter,
+              width: MediaQuery.of(context).size.width,
+              height: 70,
+              color: Colors.blueGrey[600],
+              padding: EdgeInsets.all(10),
+              child: Center(
+                child: Row(
+                  children: <Widget>[
+                    Text(snapshot.data.documents[index].data["chatroomName"]),
+                    Spacer(),
+                    FlatButton(
+                      child: Text("Enter Chatroom",),
+                      onPressed: (){
+                        databaseMethods.enterChatRoom(username, snapshot.data.documents[index].data["chatroomId"]);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen(snapshot.data.documents[index].data["chatroomId"])));
+                        },
+                      color: Colors.blue[200],
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ):Container();
+      },
     );
   }
 }

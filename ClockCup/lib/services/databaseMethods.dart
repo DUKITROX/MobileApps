@@ -47,6 +47,22 @@ class DatabaseMethods{
   findChatroom(String chatroomName)async{
     return await Firestore.instance.collection("chatrooms").where("chatroomName",isEqualTo: chatroomName.toUpperCase()).getDocuments().catchError((e)=>print("SEARCH CHATROOM $e"));
   }
+  enterChatRoom(String username, int chatroomId)async{
+    DocumentSnapshot documentSnapshot = await Firestore.instance.collection("chatrooms").document(chatroomId.toString()).get();
+    if(!documentSnapshot.data["users"].contains(username)){
+      List<dynamic> usersList = documentSnapshot.data["users"];
+      usersList.add(username);
+      Firestore.instance.collection("chatrooms").document(chatroomId.toString()).updateData({
+        "users":usersList
+      });
+    }else{
+      print("USERNAME IS ALREADY IN THE CHATROOM");
+    }
+  }
+  getChatrooms(String username){
+    return Firestore.instance.collection("chatrooms").where("users",arrayContains: username).snapshots();
+  }
+
   getMessages(int chatroomId)async{
     return Firestore.instance.collection("chatrooms").document(chatroomId.toString()).collection("chats").orderBy("timeStamp",descending: true).snapshots();
   }

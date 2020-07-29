@@ -1,5 +1,6 @@
 import 'package:ClockCup/screens/chatScreen/chatScreen.dart';
 import 'package:ClockCup/services/databaseMethods.dart';
+import 'package:ClockCup/services/sharedPreferences.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -13,6 +14,7 @@ class _SearchScreenState extends State<SearchScreen> {
   bool foundChatroom = false;
   String chatroomName;
   int chatroomId;
+  String username;
 
   DatabaseMethods databaseMethods = DatabaseMethods();
   TextEditingController chatroomNameController = TextEditingController();
@@ -34,6 +36,10 @@ class _SearchScreenState extends State<SearchScreen> {
         });
       }
     });
+  }
+
+  @override void initState() {
+    SharedPreferencesMethods.getUsername().then((value) => username = value);
   }
 
   @override
@@ -78,7 +84,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   Spacer(),
                   FlatButton(
                     child:Text("Enter chatroom"),
-                    onPressed: ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ChatScreen(chatroomId))),
+                    onPressed: (){
+                      databaseMethods.enterChatRoom(username, chatroomId);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ChatScreen(chatroomId)));
+                      },
                     color: Colors.blue[700],
                   )
                 ],
