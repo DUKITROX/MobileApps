@@ -55,8 +55,6 @@ class DatabaseMethods{
       Firestore.instance.collection("chatrooms").document(chatroomId.toString()).updateData({
         "users":usersList
       });
-    }else{
-      print("USERNAME IS ALREADY IN THE CHATROOM");
     }
   }
   getChatrooms(String username){

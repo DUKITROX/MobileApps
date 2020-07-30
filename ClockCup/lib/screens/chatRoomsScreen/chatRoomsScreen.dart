@@ -27,12 +27,17 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
   }
   @override
   void initState() {
-    SharedPreferencesMethods.getUsername().then((value) => username = value);
+    SharedPreferencesMethods.getUsername().then((value){
+      setState(() {
+        username = value;
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(username),
         actions: <Widget>[
           GestureDetector(
             child: Container(
