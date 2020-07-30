@@ -78,6 +78,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     Expanded(
                         child: TextField(
                         controller: messageController,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
                         decoration: InputDecoration.collapsed(
                           hintText: "Message..."
                         ),

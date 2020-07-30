@@ -81,6 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   TextFormField(
                     controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
                     validator: (val){
                       if(!EmailValidator.validate(val)){
                         return "Please provide a valid email";
